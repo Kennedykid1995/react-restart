@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import './App.css';
 import TodoList from "./todolist/todo"; 
+import TodoItem from './todoItem/todoItem';
 
 class App extends Component {
   constructor(){
@@ -10,6 +11,8 @@ class App extends Component {
       currentItem: {text: '', key:''},
     }
   }
+  inputElement = React.createRef(); 
+  
   handleInput= e => {
     const itemText = e.target.value;
     const currentItem = {text: itemText, key: Date.now()}
@@ -29,6 +32,14 @@ class App extends Component {
     }
     console.log("Hello Add Item")
   }
+  deleteItem = key => {
+    const filteredItems = this.state.items.filter(item => {
+      return item.key !== key
+    })
+    this.setState({
+      items: filteredItems, 
+    })
+  }
   render(){
     return (
       <div className="App">
@@ -43,6 +54,7 @@ class App extends Component {
           currentItem = {this.state.currentItem}
           inputElement = {this.inputElement}
           />
+          <TodoItem entries={this.state.items} deleteItem={this.deleteItem} />
         </div>
       </div>
     );
